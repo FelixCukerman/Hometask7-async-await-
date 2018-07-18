@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using HometaskEntity.DAL.Models;
 
 namespace HometaskEntity
@@ -12,6 +9,7 @@ namespace HometaskEntity
         {
             Database.EnsureCreated();
         }
+
         public DbSet<Aviator> Aviators { get; set; }
         public DbSet<Crew> Crews { get; set; }
         public DbSet<Departure> Departures { get; set; }
