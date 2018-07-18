@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HometaskEntity.BLL.DTOs;
+using BLL.Service;
 using HometaskEntity.DAL.Models;
 using HometaskEntity.DAL.Contracts;
 using HometaskEntity.BLL.Contracts;
@@ -35,6 +36,11 @@ namespace HometaskEntity.BLL.Service
         public async Task Delete(int id)
         {
             await unitOfWork.Crews.Delete(id);
+        }
+        public async Task CreateFromApi()
+        {
+            CrewApiService crewApiService = new CrewApiService(unitOfWork);
+            await Task.WhenAll(new[] { crewApiService.WriteToLog(), crewApiService.WriteToDB()});
         }
     }
 }
