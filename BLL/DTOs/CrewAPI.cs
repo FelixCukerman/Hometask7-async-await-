@@ -4,7 +4,7 @@ using HometaskEntity.DAL.Models;
 
 namespace BLL.DTOs
 {
-    class CrewAPI
+    public class CrewAPI
     {
         [Required]
         public int id { get; set; }

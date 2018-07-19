@@ -7,19 +7,21 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using HometaskEntity.DAL.Models;
 using BLL.DTOs;
+using HometaskEntity.BLL.DTOs;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using HometaskEntity.DAL.Contracts;
+using HometaskEntity.BLL.Contracts;
 
-namespace BLL.Service
+namespace HometaskEntity.BLL.Service
 {
-    class CrewApiService
+    public class CrewApiService
     {
-        IUnitOfWork unitOfWork;
-        public CrewApiService(IUnitOfWork unitOfWork)
+        IService<CrewDTO> service;
+        public CrewApiService(IService<CrewDTO> service)
         {
-            this.unitOfWork = unitOfWork;
+            this.service = service;
         }
+
         public async Task<List<CrewAPI>> GetCrew()
         {
             HttpClient client = new HttpClient();
@@ -59,8 +61,8 @@ namespace BLL.Service
                 {
                     currentAviator = new Aviator { Id = pilot.Id, Name = pilot.Name, Surname = pilot.Surname, Experience = pilot.Experience, DateOfBirthday = pilot.DateOfBirthday };
                 }
-                Crew crew = new Crew { Id = item.id, aviator = currentAviator, stewardesses = item.stewardess };
-                await unitOfWork.Crews.Create(crew);
+                CrewDTO crew = new CrewDTO { Id = item.id, aviator = currentAviator, stewardesses = item.stewardess };
+                await service.Create(crew);
             }
         }
     }

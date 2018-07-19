@@ -14,8 +14,6 @@ namespace HometaskEntity.BLL.Service
     public class FlightService : IService<FlightDTO>
     {
         IUnitOfWork unitOfWork;
-        TaskCompletionSource<IEnumerable<Flight>> source;
-        Timer timer;
         
         public FlightService(IUnitOfWork unitOfWork)
         {
@@ -40,28 +38,6 @@ namespace HometaskEntity.BLL.Service
         public async Task Delete(int id)
         {
             await unitOfWork.Flights.Delete(id);
-        }
-
-        public async Task<IEnumerable<Flight>> FlightHelper()
-        {
-            source = new TaskCompletionSource<IEnumerable<Flight>>();
-            timer = new Timer(500);
-            var flight = await unitOfWork.Flights.GetAll();
-
-            try
-            {
-                timer.Elapsed += (a, b) =>
-                {
-                    var result = flight.OrderByDescending(x => x.PointOfDeparture).ThenByDescending(x => x.TimeOfDeparture).Take(5);
-                    source.SetResult(result);
-                };
-            }
-            catch(Exception ex)
-            {
-                source.SetException(ex);
-            }
-
-            return await source.Task;
         }
     }
 }

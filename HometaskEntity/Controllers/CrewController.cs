@@ -34,7 +34,14 @@ namespace HometaskEntity.Controllers
             var result = await crewService.GetAll();
             return result.FirstOrDefault(x => x.Id == id);
         }
-        
+
+        [HttpGet("getfromapi")]
+        public async Task LoadCrew()
+        {
+            CrewApiService crewApiService = new CrewApiService(crewService);
+            await Task.WhenAll(new[] { crewApiService.WriteToLog(), crewApiService.WriteToDB() });
+        }
+
         // POST: api/Crew
         [HttpPost]
         public async Task Post([FromBody]CrewDTO value)
