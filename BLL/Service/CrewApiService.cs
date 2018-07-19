@@ -81,11 +81,18 @@ namespace HometaskEntity.BLL.Service
             foreach (var item in result)
             {
                 Aviator currentAviator = null;
+                List<Stewardess> currentStewardess = new List<Stewardess>();
                 foreach(var pilot in item.pilot)
                 {
-                    currentAviator = new Aviator { Id = pilot.Id, Name = pilot.Name, Surname = pilot.Surname, Experience = pilot.Experience, DateOfBirthday = pilot.DateOfBirthday };
+                    currentAviator = new Aviator { Name = pilot.Name, Surname = pilot.Surname, Experience = pilot.Experience, DateOfBirthday = pilot.DateOfBirthday };
                 }
-                CrewDTO crew = new CrewDTO { Id = item.id, aviator = currentAviator, stewardesses = item.stewardess };
+
+                foreach (var stewardess in item.stewardess)
+                {
+                    currentStewardess.Add(new Stewardess { Name = stewardess.Name, Surname = stewardess.Surname, DateOfBirthday = stewardess.DateOfBirthday });
+                }
+
+                CrewDTO crew = new CrewDTO { aviator = currentAviator, stewardesses = currentStewardess };
                 await service.Create(crew);
             }
         }
