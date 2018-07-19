@@ -40,11 +40,35 @@ namespace HometaskEntity.BLL.Service
 
         public async Task WriteToLog()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("log_date_time" + DateTime.Now.ToString() + ".csv", FileMode.OpenOrCreate))
+            string path = Path.Combine(Environment.CurrentDirectory, @"Logs\", "log_date_time_" + DateTime.Now.ToString("dd-MM-yy___H-mm") + ".csv");
+
+            using (StreamWriter wrt = new StreamWriter(path))
             {
-                var result = await GetCrew();
-                formatter.Serialize(fs, result.Where(x => x.id <= 11));
+                var crews = await GetCrew();
+                await wrt.WriteLineAsync("Crews");
+                await wrt.WriteLineAsync(new string('/', 35));
+                foreach (var result in crews.Where(x => x.id <= 11))
+                {
+                    await wrt.WriteLineAsync(result.id.ToString());
+
+                    await wrt.WriteLineAsync("Aviators from crew with id" + result.id + "\n");
+                    foreach (var pilot in result.pilot)
+                    {
+                        await wrt.WriteLineAsync("Id          : " + pilot.Id.ToString());
+                        await wrt.WriteLineAsync("Name        : " + pilot.Name);
+                        await wrt.WriteLineAsync("Surname     : " + pilot.Surname);
+                        await wrt.WriteLineAsync("Experience  : " + pilot.Experience.ToString() + "\n");
+                    }
+
+                    await wrt.WriteLineAsync("Stewardesses from crew with id" + result.id + "\n");
+                    foreach (var stewardess in result.stewardess)
+                    {
+                        await wrt.WriteLineAsync("Id          : " + stewardess.Id.ToString());
+                        await wrt.WriteLineAsync("Name        :" + stewardess.Name);
+                        await wrt.WriteLineAsync("Surname     : " + stewardess.Surname + "\n");
+                    }
+                    wrt.Flush();
+                }
             }
         }
 
