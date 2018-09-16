@@ -22,7 +22,7 @@ namespace HometaskEntity.BLL.Service
         }
         public async Task<PlaneDTO> GetById(int id)
         {
-            return Mapper.Map<List<PlaneDTO>>(await unitOfWork.Planes.GetAll()).FirstOrDefault(x => x.Id == id);
+            return Mapper.Map<List<PlaneDTO>>(await unitOfWork.Planes.Get(id)).FirstOrDefault();
         }
         public async Task Create(PlaneDTO planeDTO)
         {

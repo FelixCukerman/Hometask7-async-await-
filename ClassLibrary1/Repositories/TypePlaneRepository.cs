@@ -5,6 +5,7 @@ using System.Text;
 using HometaskEntity.DAL.Contracts;
 using HometaskEntity.DAL.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HometaskEntity.DAL.Repositories
 {
@@ -18,11 +19,11 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task<IEnumerable<TypePlane>> GetAll()
         {
-            return data.TypesPlane;
+            return await data.TypesPlane.ToListAsync();
         }
         public async Task<TypePlane> Get(int id)
         {
-            return data.TypesPlane.FirstOrDefault(x => x.Id == id);
+            return await data.TypesPlane.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task Create(TypePlane typePlane)
         {

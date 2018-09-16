@@ -16,8 +16,8 @@ namespace HometaskEntity.DAL.Models
         [Required]
         public int TimeOfDeparture { get; set; }
         [Required]
-        public int CrewId { get; set; }
+        public Crew CrewObj { get; set; }
         [Required]
-        public int PlaneId { get; set; }
+        public Plane PlaneObj { get; set; }
     }
 }

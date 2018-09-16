@@ -4,26 +4,26 @@ using HometaskEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HometaskEntity.Migrations
+namespace DAL.Migrations
 {
     [DbContext(typeof(AirportContext))]
-    [Migration("20180715073220_AddAttribute")]
-    partial class AddAttribute
+    partial class AirportContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("HometaskEntity.DAL.Models.Aviator", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateOfBirthday");
 
@@ -43,7 +43,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Crew", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("aviatorId");
 
@@ -57,17 +58,22 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Departure", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CrewId");
+                    b.Property<int>("CrewObjId");
 
                     b.Property<int>("FlightNumber");
 
-                    b.Property<int>("PlaneId");
+                    b.Property<int>("PlaneObjId");
 
                     b.Property<int>("TimeOfDeparture");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CrewObjId");
+
+                    b.HasIndex("PlaneObjId");
 
                     b.ToTable("Departures");
                 });
@@ -75,7 +81,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Flight", b =>
                 {
                     b.Property<int>("Number")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ArrivalTime");
 
@@ -97,7 +104,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Plane", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -117,7 +125,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Stewardess", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CrewId");
 
@@ -139,7 +148,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FlightNumber");
 
@@ -153,7 +163,8 @@ namespace HometaskEntity.Migrations
             modelBuilder.Entity("HometaskEntity.DAL.Models.TypePlane", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CarryingCapacity");
 
@@ -172,6 +183,19 @@ namespace HometaskEntity.Migrations
                     b.HasOne("HometaskEntity.DAL.Models.Aviator", "aviator")
                         .WithMany()
                         .HasForeignKey("aviatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HometaskEntity.DAL.Models.Departure", b =>
+                {
+                    b.HasOne("HometaskEntity.DAL.Models.Crew", "CrewObj")
+                        .WithMany()
+                        .HasForeignKey("CrewObjId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HometaskEntity.DAL.Models.Plane", "PlaneObj")
+                        .WithMany()
+                        .HasForeignKey("PlaneObjId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

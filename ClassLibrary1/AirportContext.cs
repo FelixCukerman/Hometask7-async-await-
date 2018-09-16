@@ -7,7 +7,6 @@ namespace HometaskEntity
     {
         public AirportContext(DbContextOptions<AirportContext> contextOptions) : base(contextOptions)
         {
-            Database.EnsureCreated();
         }
 
         public DbSet<Aviator> Aviators { get; set; }

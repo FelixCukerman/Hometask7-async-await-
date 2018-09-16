@@ -12,8 +12,8 @@ namespace HometaskEntity.BLL.DTOs
         [Required]
         public int TimeOfDeparture { get; set; }
         [Required]
-        public int CrewId { get; set; }
+        public CrewDTO CrewObj { get; set; }
         [Required]
-        public int PlaneId { get; set; }
+        public PlaneDTO PlaneObj { get; set; }
     }
 }

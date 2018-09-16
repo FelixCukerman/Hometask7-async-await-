@@ -5,6 +5,7 @@ using System.Text;
 using HometaskEntity.DAL.Models;
 using HometaskEntity.DAL.Contracts;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HometaskEntity.DAL.Repositories
 {
@@ -18,11 +19,11 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task<IEnumerable<Stewardess>> GetAll()
         {
-            return data.Stewardesses;
+            return await data.Stewardesses.ToListAsync();
         }
         public async Task<Stewardess> Get(int id)
         {
-            return data.Stewardesses.FirstOrDefault(x => x.Id == id);
+            return await data.Stewardesses.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task Create(Stewardess stewardess)
         {

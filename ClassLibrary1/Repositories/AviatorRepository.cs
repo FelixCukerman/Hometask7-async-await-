@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using HometaskEntity.DAL.Contracts;
 using HometaskEntity.DAL.Models;
 
@@ -17,11 +18,11 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task<IEnumerable<Aviator>> GetAll()
         {
-            return data.Aviators;
+            return await data.Aviators.ToListAsync();
         }
         public async Task<Aviator> Get(int id)
         {
-            return data.Aviators.FirstOrDefault(x => x.Id == id);
+            return await data.Aviators.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task Create(Aviator aviator)
         {

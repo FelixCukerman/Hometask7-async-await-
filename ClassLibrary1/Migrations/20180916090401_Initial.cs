@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace HometaskEntity.Migrations
+namespace DAL.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,8 +14,8 @@ namespace HometaskEntity.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     DateOfBirthday = table.Column<DateTime>(nullable: false),
                     Experience = table.Column<int>(nullable: false)
                 },
@@ -25,30 +25,14 @@ namespace HometaskEntity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FlightNumber = table.Column<int>(nullable: false),
-                    TimeOfDeparture = table.Column<int>(nullable: false),
-                    CrewId = table.Column<int>(nullable: false),
-                    PlaneId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departures", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Flights",
                 columns: table => new
                 {
                     Number = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PointOfDeparture = table.Column<string>(nullable: true),
+                    PointOfDeparture = table.Column<string>(nullable: false),
                     TimeOfDeparture = table.Column<DateTime>(nullable: false),
-                    Destination = table.Column<string>(nullable: true),
+                    Destination = table.Column<string>(nullable: false),
                     ArrivalTime = table.Column<DateTime>(nullable: false),
                     TicketId = table.Column<int>(nullable: false)
                 },
@@ -63,8 +47,8 @@ namespace HometaskEntity.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Type = table.Column<string>(nullable: false),
                     ReleaseDate = table.Column<DateTime>(nullable: false),
                     TimeSpan = table.Column<int>(nullable: false)
                 },
@@ -93,7 +77,7 @@ namespace HometaskEntity.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ModelOfPlane = table.Column<string>(nullable: true),
+                    ModelOfPlane = table.Column<string>(nullable: false),
                     CountOfSeats = table.Column<int>(nullable: false),
                     CarryingCapacity = table.Column<int>(nullable: false)
                 },
@@ -108,7 +92,7 @@ namespace HometaskEntity.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    aviatorId = table.Column<int>(nullable: true)
+                    aviatorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,7 +102,35 @@ namespace HometaskEntity.Migrations
                         column: x => x.aviatorId,
                         principalTable: "Aviators",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FlightNumber = table.Column<int>(nullable: false),
+                    TimeOfDeparture = table.Column<int>(nullable: false),
+                    CrewObjId = table.Column<int>(nullable: false),
+                    PlaneObjId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departures_Crews_CrewObjId",
+                        column: x => x.CrewObjId,
+                        principalTable: "Crews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Departures_Planes_PlaneObjId",
+                        column: x => x.PlaneObjId,
+                        principalTable: "Planes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,8 +139,8 @@ namespace HometaskEntity.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     DateOfBirthday = table.Column<DateTime>(nullable: false),
                     CrewId = table.Column<int>(nullable: true)
                 },
@@ -149,6 +161,16 @@ namespace HometaskEntity.Migrations
                 column: "aviatorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departures_CrewObjId",
+                table: "Departures",
+                column: "CrewObjId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departures_PlaneObjId",
+                table: "Departures",
+                column: "PlaneObjId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stewardesses_CrewId",
                 table: "Stewardesses",
                 column: "CrewId");
@@ -163,9 +185,6 @@ namespace HometaskEntity.Migrations
                 name: "Flights");
 
             migrationBuilder.DropTable(
-                name: "Planes");
-
-            migrationBuilder.DropTable(
                 name: "Stewardesses");
 
             migrationBuilder.DropTable(
@@ -173,6 +192,9 @@ namespace HometaskEntity.Migrations
 
             migrationBuilder.DropTable(
                 name: "TypesPlane");
+
+            migrationBuilder.DropTable(
+                name: "Planes");
 
             migrationBuilder.DropTable(
                 name: "Crews");

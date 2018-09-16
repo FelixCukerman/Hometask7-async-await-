@@ -25,7 +25,7 @@ namespace HometaskEntity.BLL.Service
         }
         public async Task<FlightDTO> GetById(int id)
         {
-            return Mapper.Map<List<FlightDTO>>(await unitOfWork.Flights.GetAll()).FirstOrDefault(x => x.Number == id);
+            return Mapper.Map<List<FlightDTO>>(await unitOfWork.Flights.Get(id)).FirstOrDefault();
         }
         public async Task Create(FlightDTO flightDTO)
         {

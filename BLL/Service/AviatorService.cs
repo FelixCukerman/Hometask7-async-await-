@@ -26,10 +26,9 @@ namespace HometaskEntity.BLL.Service
         }
         public async Task<AviatorDTO> GetById(int id)
         {
-            var result = await unitOfWork.Aviators.GetAll();
-            var item = result.FirstOrDefault(x => x.Id == id);
+            var item = await unitOfWork.Aviators.Get(id);
             if (item != null)
-                return Mapper.Map<List<AviatorDTO>>(await unitOfWork.Aviators.GetAll()).FirstOrDefault(x => x.Id == id);
+                return Mapper.Map<List<AviatorDTO>>(item).FirstOrDefault(x => x.Id == id);
             else
                 throw new System.Exception("Bad request");
         }
@@ -49,8 +48,7 @@ namespace HometaskEntity.BLL.Service
         }
         public async Task Update(int id, AviatorDTO aviatorDTO)
         {
-            var result = await unitOfWork.Aviators.GetAll();
-            var item = result.FirstOrDefault(x => x.Id == id);
+            var item = await unitOfWork.Aviators.Get(id);
             if (aviatorDTO == null || item != null)
                 throw new System.Exception("Bad request");
             var aviators = Mapper.Map<List<AviatorDTO>>(await unitOfWork.Aviators.GetAll());
@@ -65,8 +63,7 @@ namespace HometaskEntity.BLL.Service
         }
         public async Task Delete(int id)
         {
-            var result = await unitOfWork.Aviators.GetAll();
-            var item = result.FirstOrDefault(x => x.Id == id);
+            var item = unitOfWork.Aviators.Get(id);
             if (item != null)
                 await unitOfWork.Aviators.Delete(id);
         }
