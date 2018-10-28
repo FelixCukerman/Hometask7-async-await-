@@ -32,7 +32,12 @@ namespace HometaskEntity.DAL.Repositories
         public async Task Update(int id, Plane plane)
         {
             var item = data.Planes.FirstOrDefault(x => x.Id == id);
-            item = plane;
+
+            item.Name = plane.Name;
+            item.ReleaseDate = plane.ReleaseDate;
+            item.TimeSpan = plane.TimeSpan;
+            item.Type = plane.Type;
+
             await data.SaveChangesAsync();
         }
         public async Task Delete(int id)

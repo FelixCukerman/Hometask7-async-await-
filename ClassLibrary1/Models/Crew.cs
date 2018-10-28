@@ -10,9 +10,8 @@ namespace HometaskEntity.DAL.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        [Required]
-        public Aviator aviator { get; set; }
-        [Required]
-        public List<Stewardess> stewardesses { get; set; }
+        public List<Aviator> Aviators { get; set; }
+        public List<Stewardess> Stewardesses { get; set; }
+        public List<Departure> Departures { get; set; }
     }
 }

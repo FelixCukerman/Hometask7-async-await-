@@ -9,10 +9,9 @@ namespace HometaskEntity.DAL
 {
     public class DataSource
     {
+        private List<Ticket> tickets;
         public DataSource(AirportContext airportContext)
         {
-            airportContext.Database.EnsureCreated();
-
             if(!(airportContext.Aviators.Any(p => p.Name == "Alex" && p.Surname == "Harper" && p.Experience == 3 && p.DateOfBirthday == DateTime.MinValue)))
             {
                 List<Aviator> aviators = new List<Aviator>
@@ -25,9 +24,9 @@ namespace HometaskEntity.DAL
 
                 List<Plane> planes = new List<Plane>
                 {
-                    new Plane { Name = "qwe", TimeSpan = 3, Type = "A", ReleaseDate = DateTime.Now},
-                    new Plane { Name = "rty", TimeSpan = 4, Type = "B", ReleaseDate = DateTime.Now},
-                    new Plane { Name = "zxc", TimeSpan = 5, Type = "C", ReleaseDate = DateTime.Now}
+                    new Plane { Name = "qwe", TimeSpan = 3, ReleaseDate = DateTime.Now},
+                    new Plane { Name = "rty", TimeSpan = 4, ReleaseDate = DateTime.Now},
+                    new Plane { Name = "zxc", TimeSpan = 5, ReleaseDate = DateTime.Now}
                 };
                 airportContext.Planes.AddRange(planes);
 
@@ -41,29 +40,27 @@ namespace HometaskEntity.DAL
 
                 List<Crew> crews = new List<Crew>
                 {
-                    new Crew { aviator = aviators[0], stewardesses = stewardesse_s},
-                    new Crew { aviator = aviators[1], stewardesses = stewardesse_s},
-                    new Crew { aviator = aviators[2], stewardesses = stewardesse_s}
+                    new Crew { Aviators = new List<Aviator> { aviators[0]}, Stewardesses = new List<Stewardess> { stewardesse_s[0]} },
+                    new Crew { Aviators = new List<Aviator> { aviators[1]}, Stewardesses = new List<Stewardess> { stewardesse_s[1]} },
+                    new Crew { Aviators = new List<Aviator> { aviators[2]}, Stewardesses = new List<Stewardess> { stewardesse_s[2]} }
                 };
                 airportContext.Crews.AddRange(crews);
 
-                List<Ticket> tickets = new List<Ticket>
-                {
-                    new Ticket { Price = 1000, FlightNumber = 101},
-                    new Ticket { Price = 2000, FlightNumber = 102},
-                    new Ticket { Price = 3000, FlightNumber = 103}
-                };
-                airportContext.Tickets.AddRange(tickets);
-
                 List<Flight> flights = new List<Flight>
                 {
-                    new Flight { Destination = "nulL", TicketId = tickets[0].Id, ArrivalTime = DateTime.MinValue, PointOfDeparture = "Texas", TimeOfDeparture = DateTime.Now},
-                    new Flight { Destination = "Null", TicketId = tickets[1].Id, ArrivalTime = DateTime.MinValue, PointOfDeparture = "New Mexico", TimeOfDeparture = DateTime.Now},
-                    new Flight { Destination = "nUll", TicketId = tickets[2].Id, ArrivalTime = DateTime.MinValue, PointOfDeparture = "Los Santos", TimeOfDeparture = DateTime.Now}
+                    new Flight { Destination = "nulL", Tickets = new List<Ticket>{ tickets[0] }, ArrivalTime = DateTime.MinValue, PointOfDeparture = "Texas", TimeOfDeparture = DateTime.Now},
+                    new Flight { Destination = "Null", Tickets = new List<Ticket>{ tickets[1] }, ArrivalTime = DateTime.MinValue, PointOfDeparture = "New Mexico", TimeOfDeparture = DateTime.Now},
+                    new Flight { Destination = "nUll", Tickets = new List<Ticket>{ tickets[2] }, ArrivalTime = DateTime.MinValue, PointOfDeparture = "Los Santos", TimeOfDeparture = DateTime.Now}
                 };
                 airportContext.Flights.AddRange(flights);
 
-
+                tickets = new List<Ticket>
+                {
+                    new Ticket { Price = 1000, FlightObj = flights[0]},
+                    new Ticket { Price = 2000, FlightObj = flights[1]},
+                    new Ticket { Price = 3000, FlightObj = flights[2]}
+                };
+                airportContext.Tickets.AddRange(tickets);
 
                 List<TypePlane> typesPlane = new List<TypePlane>
                 {
@@ -75,9 +72,9 @@ namespace HometaskEntity.DAL
 
                 List<Departure> departures = new List<Departure>
                 {
-                    new Departure { FlightNumber = 111, PlaneObj = planes[0], CrewObj = crews[0], TimeOfDeparture = 3},
-                    new Departure { FlightNumber = 222, PlaneObj = planes[1], CrewObj = crews[1], TimeOfDeparture = 4},
-                    new Departure { FlightNumber = 333, PlaneObj = planes[2], CrewObj = crews[2], TimeOfDeparture = 5}
+                    new Departure { FlightObj = flights[0], PlaneObj = planes[0], CrewObj = crews[0], TimeOfDeparture = 3},
+                    new Departure { FlightObj = flights[1], PlaneObj = planes[1], CrewObj = crews[1], TimeOfDeparture = 4},
+                    new Departure { FlightObj = flights[2], PlaneObj = planes[2], CrewObj = crews[2], TimeOfDeparture = 5}
                 };
                 airportContext.Departures.AddRange(departures);
 

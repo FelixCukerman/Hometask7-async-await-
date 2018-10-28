@@ -13,11 +13,11 @@ namespace HometaskEntity.DAL.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string Type { get; set; }
+        public TypePlane Type { get; set; }
         [Required]
         public DateTime ReleaseDate { get; set; }
         [Required]
         public int TimeSpan { get; set; }
+        public List<Departure> Departures { get; set; }
     }
 }

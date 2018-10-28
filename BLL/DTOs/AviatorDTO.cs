@@ -1,5 +1,7 @@
 ﻿using System;
+using HometaskEntity.DAL.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HometaskEntity.BLL.DTOs
 {
@@ -18,5 +20,7 @@ namespace HometaskEntity.BLL.DTOs
         [Range(1, 50, ErrorMessage = "Uncorrect value")]
         [Required]
         public int Experience { get; set; }
+        public Crew crew { get; set; }
+
     }
 }

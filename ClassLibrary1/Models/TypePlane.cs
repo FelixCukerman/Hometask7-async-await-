@@ -17,5 +17,6 @@ namespace HometaskEntity.DAL.Models
         public int CountOfSeats { get; set; }
         [Required]
         public int CarryingCapacity { get; set; }
+        public List<Plane> Planes { get; set; }
     }
 }

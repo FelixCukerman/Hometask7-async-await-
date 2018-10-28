@@ -18,7 +18,7 @@ namespace HometaskEntity.DAL.Models
         public string Destination { get; set; }
         [Required]
         public DateTime ArrivalTime { get; set; }
-        [Required]
-        public int TicketId { get; set; }
+        public List<Ticket> Tickets { get; set; }
+        public List<Departure> Departures { get; set; }
     }
 }

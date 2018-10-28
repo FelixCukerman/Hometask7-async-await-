@@ -19,7 +19,7 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task<IEnumerable<Crew>> GetAll()
         {
-            return await data.Crews.ToListAsync();
+            return await data.Crews.Include(crews => crews.Aviators).Include(crews => crews.Stewardesses).ToListAsync();
         }
         public async Task<Crew> Get(int id)
         {
@@ -32,8 +32,17 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task Update(int id, Crew crew)
         {
-            var item = data.Crews.FirstOrDefault(x => x.Id == id);
-            item = crew;
+            var item = data.Crews.Include(x => x.Aviators).Include(x => x.Stewardesses).FirstOrDefault(x => x.Id == id);
+
+            if(item.Aviators != null && item.Stewardesses != null)
+            {
+                item.Stewardesses.RemoveRange(0, item.Stewardesses.Count);
+                item.Stewardesses.AddRange(crew.Stewardesses);
+
+                item.Aviators.RemoveRange(0, item.Aviators.Count);
+                item.Aviators.AddRange(crew.Aviators);
+            }
+
             await data.SaveChangesAsync();
         }
         public async Task Delete(int id)

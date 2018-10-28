@@ -33,7 +33,10 @@ namespace HometaskEntity.DAL.Repositories
         public async Task Update(int id, Ticket ticket)
         {
             var item = data.Tickets.FirstOrDefault(x => x.Id == id);
-            item = ticket;
+
+            item.Price = ticket.Price;
+            item.FlightObj = ticket.FlightObj;
+
             await data.SaveChangesAsync();
         }
         public async Task Delete(int id)

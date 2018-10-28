@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using HometaskEntity.DAL.Models;
+using System.Collections.Generic;
 
 namespace HometaskEntity.BLL.DTOs
 {
@@ -18,6 +20,6 @@ namespace HometaskEntity.BLL.DTOs
         [Required]
         public DateTime ArrivalTime { get; set; }
         [Required]
-        public int TicketId { get; set; }
+        public List<Ticket> ticket { get; set; }
     }
 }

@@ -18,11 +18,11 @@ namespace HometaskEntity.DAL.Repositories
         }
         public async Task<IEnumerable<Flight>> GetAll()
         {
-            return await data.Flights.ToListAsync();
-        }
+            return await data.Flights.Include(x => x.Tickets).ToListAsync();
+        } 
         public async Task<Flight> Get(int id)
         {
-            return await data.Flights.FirstOrDefaultAsync(x => x.Number == id);
+            return await data.Flights.Include(x => x.Tickets).FirstOrDefaultAsync(x => x.Number == id);
         }
         public async Task Create(Flight flight)
         {
@@ -32,7 +32,18 @@ namespace HometaskEntity.DAL.Repositories
         public async Task Update(int id, Flight flight)
         {
             var item = data.Flights.FirstOrDefault(x => x.Number == id);
-            item = flight;
+
+            item.PointOfDeparture = flight.PointOfDeparture;
+            item.TimeOfDeparture = flight.TimeOfDeparture;
+            item.Destination = flight.Destination;
+            item.ArrivalTime = flight.ArrivalTime;
+
+            if (item.Tickets != null)
+            {
+                item.Tickets.RemoveRange(0, item.Tickets.Count);
+                item.Tickets.AddRange(flight.Tickets);
+            }
+
             await data.SaveChangesAsync();
         }
         public async Task Delete(int id)

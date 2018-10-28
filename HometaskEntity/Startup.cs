@@ -27,6 +27,10 @@ namespace HometaskEntity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddMvc().AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
             services.AddAutoMapper();
             services.AddScoped<IService<AviatorDTO>, AviatorService>();
             services.AddScoped<IService<CrewDTO>, CrewService>();

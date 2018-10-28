@@ -9,9 +9,8 @@ namespace HometaskEntity.BLL.DTOs
     {
         [Required]
         public int Id { get; set; }
-        [Required]
-        public Aviator aviator { get; set; }
-        [Required]
+        public List<Aviator> aviator { get; set; }
         public List<Stewardess> stewardesses { get; set; }
+        public List<Departure> departures { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HometaskEntity.DAL.Models;
 
 namespace HometaskEntity.BLL.DTOs
 {
@@ -10,6 +11,6 @@ namespace HometaskEntity.BLL.DTOs
         public double Price { get; set; }
         [Required]
         [Range(100, 9999)]
-        public int FlightNumber { get; set; }
+        public Ticket ticket { get; set; }
     }
 }

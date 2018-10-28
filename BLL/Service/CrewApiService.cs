@@ -92,7 +92,7 @@ namespace HometaskEntity.BLL.Service
                     currentStewardess.Add(new Stewardess { Name = stewardess.Name, Surname = stewardess.Surname, DateOfBirthday = stewardess.DateOfBirthday });
                 }
 
-                CrewDTO crew = new CrewDTO { aviator = currentAviator, stewardesses = currentStewardess };
+                CrewDTO crew = new CrewDTO { aviator = new List<Aviator> { currentAviator }, stewardesses = currentStewardess };
                 await service.Create(crew);
             }
         }

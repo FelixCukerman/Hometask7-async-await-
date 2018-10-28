@@ -11,13 +11,10 @@ namespace HometaskEntity.DAL.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        [Required]
-        public int FlightNumber { get; set; }
+        public Flight FlightObj { get; set; }
         [Required]
         public int TimeOfDeparture { get; set; }
-        [Required]
         public Crew CrewObj { get; set; }
-        [Required]
         public Plane PlaneObj { get; set; }
     }
 }

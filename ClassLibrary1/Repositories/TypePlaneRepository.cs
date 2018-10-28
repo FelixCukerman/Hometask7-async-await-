@@ -33,7 +33,11 @@ namespace HometaskEntity.DAL.Repositories
         public async Task Update(int id, TypePlane typePlane)
         {
             var item = data.TypesPlane.FirstOrDefault(x => x.Id == id);
-            item = typePlane;
+
+            item.ModelOfPlane = typePlane.ModelOfPlane;
+            item.CarryingCapacity = typePlane.CarryingCapacity;
+            item.CountOfSeats = typePlane.CountOfSeats;
+
             await data.SaveChangesAsync();
         }
         public async Task Delete(int id)

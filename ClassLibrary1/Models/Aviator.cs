@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace HometaskEntity.DAL.Models
 {
@@ -17,5 +18,6 @@ namespace HometaskEntity.DAL.Models
         public DateTime DateOfBirthday { get; set; }
         [Required]
         public int Experience { get; set; }
+        public Crew CrewObj { get; set; }
     }
 }

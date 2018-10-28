@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using HometaskEntity.DAL.Models;
 
 namespace HometaskEntity.BLL.DTOs
 {
@@ -15,5 +16,6 @@ namespace HometaskEntity.BLL.DTOs
         public string Surname { get; set; }
         [Required]
         public DateTime DateOfBirthday { get; set; }
+        public Crew crew { get; set; }
     }
 }

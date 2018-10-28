@@ -49,15 +49,11 @@ namespace HometaskEntity.BLL.Service
         public async Task Update(int id, AviatorDTO aviatorDTO)
         {
             var item = await unitOfWork.Aviators.Get(id);
-            if (aviatorDTO == null || item != null)
+            if (aviatorDTO == null || item == null)
                 throw new System.Exception("Bad request");
-            var aviators = Mapper.Map<List<AviatorDTO>>(await unitOfWork.Aviators.GetAll());
-            foreach (var aviator in aviators)
+            else if (item.Name == aviatorDTO.Name && item.Surname == aviatorDTO.Surname && item.Experience == aviatorDTO.Experience && item.DateOfBirthday == aviatorDTO.DateOfBirthday)
             {
-                if (aviator.Name == aviatorDTO.Name && aviator.Surname == aviatorDTO.Surname && aviator.Experience == aviatorDTO.Experience && aviator.DateOfBirthday == aviatorDTO.DateOfBirthday)
-                {
                     throw new System.Exception("Duplication of an object");
-                }
             }
             await unitOfWork.Aviators.Update(id, Mapper.Map<Aviator>(aviatorDTO));
         }
